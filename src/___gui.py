@@ -43,13 +43,6 @@ class GUI:
         self.root = root
         self.controller = controller
 
-        # Evitar que Windows escale la ventana con el % de pantalla
-        try:
-            from ctypes import windll
-            windll.shcore.SetProcessDpiAwareness(1)
-        except Exception:
-            pass
-
         # Inicializar variables de preview ANTES de crear interfaz
         self.logo_photo = None
         self.canvas_image_id = None
@@ -84,14 +77,14 @@ class GUI:
 
     def _crear_interfaz(self):
         """Crea todos los elementos de la interfaz en layout de dos columnas"""
-        frame_principal = tk.Frame(self.root, padx=5, pady=5)
+        frame_principal = tk.Frame(self.root, padx=8, pady=8)
         frame_principal.pack(fill=tk.BOTH, expand=True)
 
         # ====
         # COLUMNA IZQUIERDA: Configuración
         # ====
         frame_izquierda = tk.Frame(frame_principal)
-        frame_izquierda.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 6))
+        frame_izquierda.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 10))
 
         self._crear_seccion_logo(frame_izquierda)
         self._crear_seccion_autor(frame_izquierda)
@@ -115,11 +108,11 @@ class GUI:
         frame = tk.LabelFrame(
             parent, 
             text="🖼️ Logo del Encabezado", 
-            font=("Arial", 8, "bold"), 
-            padx=4, 
-            pady=2
+            font=("Arial", 9, "bold"), 
+            padx=8, 
+            pady=3
         )
-        frame.pack(fill=tk.X, pady=(0, 2))
+        frame.pack(fill=tk.X, pady=(0, 3))
 
         # Canvas para preview - Dimensiones fijas
         CANVAS_W, CANVAS_H = 500, 70
@@ -134,14 +127,14 @@ class GUI:
             highlightthickness=1,
             highlightbackground="#cccccc"
         )
-        self.canvas_logo_preview.pack(pady=(0, 2), fill=tk.X)
+        self.canvas_logo_preview.pack(pady=(0, 5), fill=tk.X)
 
         # Placeholder inicial
         self.canvas_logo_preview.create_text(
             CANVAS_W // 2, CANVAS_H // 2,
             text="Arrastra aquí el logo (PNG/JPG)",
             fill="#999999",
-            font=("Arial", 9),
+            font=("Arial", 10),
             tags="placeholder"
         )
 
@@ -160,18 +153,18 @@ class GUI:
             font=("Arial", 8, "bold"),
             relief=tk.FLAT,
             cursor="hand2",
-            pady=2
+            pady=4
         ).pack(fill=tk.X)
 
     def _crear_seccion_autor(self, parent):
         """Crea la sección de autor - versión compacta"""
         frame = tk.Frame(parent)
-        frame.pack(fill=tk.X, pady=(0, 2))
+        frame.pack(fill=tk.X, pady=(0, 3))
         
         tk.Label(
             frame, 
             text="📝 Autor:", 
-            font=("Arial", 8, "bold")
+            font=("Arial", 9, "bold")
         ).pack(side=tk.LEFT)
         
         self.entry_autor = tk.Entry(frame, font=("Arial", 9))
@@ -337,23 +330,26 @@ class GUI:
             parent, 
             text="📁 Carpetas a Procesar", 
             font=("Arial", 8, "bold"), 
-            padx=3, 
-            pady=2
+            padx=4, 
+            pady=3
         )
-        frame.pack(fill=tk.X, pady=(0, 2))
+        frame.pack(fill=tk.X, pady=(0, 3))
 
+        # Listbox
         f_list = tk.Frame(frame)
         f_list.pack(fill=tk.X)
         
         self.listbox_carpetas = tk.Listbox(f_list, height=3, font=("Arial", 8))
         self.listbox_carpetas.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
+        # Habilitar drag & drop
         if DRAG_DROP_DISPONIBLE:
             self.listbox_carpetas.drop_target_register(DND_FILES)
             self.listbox_carpetas.dnd_bind('<<Drop>>', self.controller.drop_carpeta)
 
+        # Botones de gestión
         f_btns = tk.Frame(frame)
-        f_btns.pack(fill=tk.X, pady=1)
+        f_btns.pack(fill=tk.X, pady=2)
         
         tk.Button(
             f_btns, 
@@ -364,7 +360,7 @@ class GUI:
             font=("Arial", 8, "bold"),
             relief=tk.FLAT,
             cursor="hand2",
-            padx=6, pady=2
+            padx=8, pady=3
         ).pack(side=tk.LEFT)
         
         tk.Button(
@@ -376,7 +372,7 @@ class GUI:
             font=("Arial", 8, "bold"),
             relief=tk.FLAT,
             cursor="hand2",
-            padx=6, pady=2
+            padx=8, pady=3
         ).pack(side=tk.LEFT, padx=3)
 
         tk.Button(
@@ -388,47 +384,49 @@ class GUI:
             font=("Arial", 8, "bold"),
             relief=tk.FLAT,
             cursor="hand2",
-            padx=6, pady=2
+            padx=8, pady=3
         ).pack(side=tk.LEFT)
 
     def _crear_seccion_excepciones(self, parent):
         """Crea la sección de excepciones (no procesar / no copiar)"""
         f_exc = tk.Frame(parent)
-        f_exc.pack(fill=tk.X, pady=2)
+        f_exc.pack(fill=tk.X, pady=3)
 
+        # No procesar
         f1 = tk.LabelFrame(
             f_exc, 
             text="🚫 No procesar (formato/pdf)", 
             font=("Arial", 8, "bold"),
-            padx=3,
-            pady=2
+            padx=4,
+            pady=3
         )
         f1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 2))
         
-        self.text_no_process = tk.Text(f1, height=1, font=("Arial", 8))
+        self.text_no_process = tk.Text(f1, height=2, font=("Arial", 8))
         self.text_no_process.pack(fill=tk.BOTH)
 
+        # No copiar
         f2 = tk.LabelFrame(
             f_exc, 
             text="🚫 Ignorados (archivo/carpeta)", 
             font=("Arial", 8, "bold"),
-            padx=3,
-            pady=2
+            padx=4,
+            pady=3
         )
         f2.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(2, 0))
         
-        self.text_no_copy = tk.Text(f2, height=1, font=("Arial", 8))
+        self.text_no_copy = tk.Text(f2, height=2, font=("Arial", 8))
         self.text_no_copy.pack(fill=tk.BOTH)
 
     def _crear_seccion_destino(self, parent):
         """Crea la sección de carpeta destino"""
         frame = tk.Frame(parent)
-        frame.pack(fill=tk.X, pady=2)
+        frame.pack(fill=tk.X, pady=3)
         
         tk.Label(
             frame, 
             text="💾 Destino:", 
-            font=("Arial", 8, "bold")
+            font=("Arial", 9, "bold")
         ).pack(side=tk.LEFT)
         
         self.entry_destino = tk.Entry(frame, font=("Arial", 8))
@@ -448,7 +446,7 @@ class GUI:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            padx=5, pady=2
+            padx=6, pady=3
         ).pack(side=tk.LEFT)
 
         tk.Button(
@@ -459,7 +457,7 @@ class GUI:
             fg="white",
             relief=tk.FLAT,
             cursor="hand2",
-            padx=5, pady=2
+            padx=6, pady=3
         ).pack(side=tk.LEFT, padx=(3, 0))
 
     def _crear_boton_empezar(self, parent):
@@ -473,9 +471,9 @@ class GUI:
             command=self.controller.empezar_proceso, 
             relief=tk.FLAT,
             cursor="hand2",
-            pady=4
+            pady=6
         )
-        self.btn_empezar.pack(fill=tk.X, pady=3)
+        self.btn_empezar.pack(fill=tk.X, pady=4)
 
     def _crear_seccion_progreso(self, parent):
         """Crea la sección de barra de progreso"""
@@ -505,7 +503,7 @@ class GUI:
             height=6, 
             font=("Consolas", 8)
         )
-        self.log_text.pack(fill=tk.BOTH, expand=True, pady=(2, 0))
+        self.log_text.pack(fill=tk.BOTH, expand=True, pady=(3, 0))
 
     def _cargar_autor_desde_archivo(self):
         """Carga el contenido de autor.txt como valor por defecto"""
@@ -755,10 +753,10 @@ class GUI:
             parent, 
             text="📄 Encabezado y Pie de Página", 
             font=("Arial", 8, "bold"), 
-            padx=4, 
-            pady=2
+            padx=6, 
+            pady=3
         )
-        f_hp.pack(fill=tk.X, pady=2)
+        f_hp.pack(fill=tk.X, pady=3)
 
         opts_hp = [
             ("Logo en encabezado", self.var_add_logo),
@@ -774,17 +772,17 @@ class GUI:
                 text=txt, 
                 variable=var, 
                 font=("Arial", 8)
-            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=2, pady=0)
+            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=3, pady=1)
 
         # Opciones de Copia
         f_cp = tk.LabelFrame(
             parent, 
             text="📂 Opciones de Copia", 
             font=("Arial", 8, "bold"), 
-            padx=4, 
-            pady=2
+            padx=6, 
+            pady=3
         )
-        f_cp.pack(fill=tk.X, pady=2)
+        f_cp.pack(fill=tk.X, pady=3)
 
         opts_cp = [
             ("Respetar estructura", self.var_respect_structure),
@@ -799,7 +797,7 @@ class GUI:
                 text=txt, 
                 variable=var, 
                 font=("Arial", 8)
-            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=2, pady=0)
+            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=3, pady=1)
 
 
         

@@ -77,7 +77,7 @@ class GUI:
 
     def _crear_interfaz(self):
         """Crea todos los elementos de la interfaz en layout de dos columnas"""
-        frame_principal = tk.Frame(self.root, padx=8, pady=8)
+        frame_principal = tk.Frame(self.root, padx=15, pady=15)
         frame_principal.pack(fill=tk.BOTH, expand=True)
 
         # ====
@@ -108,14 +108,14 @@ class GUI:
         frame = tk.LabelFrame(
             parent, 
             text="🖼️ Logo del Encabezado", 
-            font=("Arial", 9, "bold"), 
-            padx=8, 
-            pady=3
+            font=("Arial", 10, "bold"), 
+            padx=10, 
+            pady=5
         )
-        frame.pack(fill=tk.X, pady=(0, 3))
+        frame.pack(fill=tk.X, pady=(0, 5))
 
         # Canvas para preview - Dimensiones fijas
-        CANVAS_W, CANVAS_H = 500, 70
+        CANVAS_W, CANVAS_H = 500, 100
         self.canvas_preview_width = CANVAS_W
         self.canvas_preview_height = CANVAS_H
 
@@ -146,20 +146,17 @@ class GUI:
         # Botón examinar
         tk.Button(
             frame, 
-            text="📂  Examinar Logo", 
+            text="📂 Examinar Logo", 
             command=self.controller.examinar_logo,
-            bg="#2563eb",
+            bg=COLOR_INFO, 
             fg="white", 
-            font=("Arial", 8, "bold"),
-            relief=tk.FLAT,
-            cursor="hand2",
-            pady=4
+            font=("Arial", 8, "bold")
         ).pack(fill=tk.X)
 
     def _crear_seccion_autor(self, parent):
         """Crea la sección de autor - versión compacta"""
         frame = tk.Frame(parent)
-        frame.pack(fill=tk.X, pady=(0, 3))
+        frame.pack(fill=tk.X, pady=(0, 5))
         
         tk.Label(
             frame, 
@@ -329,17 +326,17 @@ class GUI:
         frame = tk.LabelFrame(
             parent, 
             text="📁 Carpetas a Procesar", 
-            font=("Arial", 8, "bold"), 
-            padx=4, 
-            pady=3
+            font=("Arial", 9, "bold"), 
+            padx=5, 
+            pady=5
         )
-        frame.pack(fill=tk.X, pady=(0, 3))
+        frame.pack(fill=tk.X, pady=(0, 5))
 
         # Listbox
         f_list = tk.Frame(frame)
         f_list.pack(fill=tk.X)
         
-        self.listbox_carpetas = tk.Listbox(f_list, height=3, font=("Arial", 8))
+        self.listbox_carpetas = tk.Listbox(f_list, height=4, font=("Arial", 8))
         self.listbox_carpetas.pack(side=tk.LEFT, fill=tk.X, expand=True)
 
         # Habilitar drag & drop
@@ -353,75 +350,66 @@ class GUI:
         
         tk.Button(
             f_btns, 
-            text="➕  Añadir", 
+            text="➕", 
             command=self.controller.agregar_carpeta, 
-            bg="#16a34a",
-            fg="white",
-            font=("Arial", 8, "bold"),
-            relief=tk.FLAT,
-            cursor="hand2",
-            padx=8, pady=3
+            width=3,
+            bg=COLOR_SUCCESS,
+            fg="white"
         ).pack(side=tk.LEFT)
         
         tk.Button(
             f_btns, 
-            text="✕  Quitar", 
-            command=self.controller.quitar_carpeta,
-            bg="#dc2626",
-            fg="white",
-            font=("Arial", 8, "bold"),
-            relief=tk.FLAT,
-            cursor="hand2",
-            padx=8, pady=3
-        ).pack(side=tk.LEFT, padx=3)
+            text="❌", 
+            command=self.controller.quitar_carpeta, 
+            width=3,
+            bg=COLOR_ERROR,
+            fg="white"
+        ).pack(side=tk.LEFT, padx=2)
 
         tk.Button(
             f_btns,
-            text="🗑  Limpiar todo",
+            text="🗑️ Eliminar todo",
             command=self.controller.limpiar_carpetas,
-            bg="#7f1d1d",
+            bg=COLOR_ERROR,
             fg="white",
-            font=("Arial", 8, "bold"),
-            relief=tk.FLAT,
-            cursor="hand2",
-            padx=8, pady=3
-        ).pack(side=tk.LEFT)
+            font=("Arial", 8)
+        ).pack(side=tk.LEFT, padx=2)
 
     def _crear_seccion_excepciones(self, parent):
         """Crea la sección de excepciones (no procesar / no copiar)"""
         f_exc = tk.Frame(parent)
-        f_exc.pack(fill=tk.X, pady=3)
+        f_exc.pack(fill=tk.X, pady=5)
 
         # No procesar
         f1 = tk.LabelFrame(
             f_exc, 
-            text="🚫 No procesar (formato/pdf)", 
+            text="🚫 Nombres de Archivos que no se procesarán (formato o pdf)", 
             font=("Arial", 8, "bold"),
-            padx=4,
-            pady=3
+            padx=5,
+            pady=5
         )
         f1.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(0, 2))
         
-        self.text_no_process = tk.Text(f1, height=2, font=("Arial", 8))
+        self.text_no_process = tk.Text(f1, height=3, font=("Arial", 8))
         self.text_no_process.pack(fill=tk.BOTH)
 
         # No copiar
         f2 = tk.LabelFrame(
             f_exc, 
-            text="🚫 Ignorados (archivo/carpeta)", 
+            text="🚫 Ignorados (archivo/Carpeta)", 
             font=("Arial", 8, "bold"),
-            padx=4,
-            pady=3
+            padx=5,
+            pady=5
         )
         f2.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(2, 0))
         
-        self.text_no_copy = tk.Text(f2, height=2, font=("Arial", 8))
+        self.text_no_copy = tk.Text(f2, height=3, font=("Arial", 8))
         self.text_no_copy.pack(fill=tk.BOTH)
 
     def _crear_seccion_destino(self, parent):
         """Crea la sección de carpeta destino"""
         frame = tk.Frame(parent)
-        frame.pack(fill=tk.X, pady=3)
+        frame.pack(fill=tk.X, pady=5)
         
         tk.Label(
             frame, 
@@ -429,7 +417,7 @@ class GUI:
             font=("Arial", 9, "bold")
         ).pack(side=tk.LEFT)
         
-        self.entry_destino = tk.Entry(frame, font=("Arial", 8))
+        self.entry_destino = tk.Entry(frame, font=("Arial", 9))
         self.entry_destino.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=5)
         
         # Cargar destino por defecto desde config si existe
@@ -442,38 +430,30 @@ class GUI:
             frame, 
             text="📂", 
             command=self.controller.seleccionar_destino,
-            bg="#2563eb",
-            fg="white",
-            relief=tk.FLAT,
-            cursor="hand2",
-            padx=6, pady=3
+            bg=COLOR_INFO,
+            fg="white"
         ).pack(side=tk.LEFT)
 
         tk.Button(
             frame,
-            text="🗑",
+            text="🗑️",
             command=self.controller.limpiar_destino,
-            bg="#dc2626",
-            fg="white",
-            relief=tk.FLAT,
-            cursor="hand2",
-            padx=6, pady=3
-        ).pack(side=tk.LEFT, padx=(3, 0))
+            bg=COLOR_ERROR,
+            fg="white"
+        ).pack(side=tk.LEFT, padx=(2, 0))
 
     def _crear_boton_empezar(self, parent):
         """Crea el botón principal de inicio"""
         self.btn_empezar = tk.Button(
             parent, 
-            text="🚀  EMPEZAR CONVERSIÓN", 
+            text="🚀 EMPEZAR CONVERSIÓN", 
             font=("Arial", 10, "bold"), 
-            bg="#16a34a",
+            bg=COLOR_SUCCESS, 
             fg="white", 
             command=self.controller.empezar_proceso, 
-            relief=tk.FLAT,
-            cursor="hand2",
-            pady=6
+            height=1
         )
-        self.btn_empezar.pack(fill=tk.X, pady=4)
+        self.btn_empezar.pack(fill=tk.X, pady=5)
 
     def _crear_seccion_progreso(self, parent):
         """Crea la sección de barra de progreso"""
@@ -500,10 +480,10 @@ class GUI:
         """Crea la sección de log de progreso"""
         self.log_text = scrolledtext.ScrolledText(
             parent, 
-            height=6, 
+            height=8, 
             font=("Consolas", 8)
         )
-        self.log_text.pack(fill=tk.BOTH, expand=True, pady=(3, 0))
+        self.log_text.pack(fill=tk.BOTH, expand=True, pady=(5, 0))
 
     def _cargar_autor_desde_archivo(self):
         """Carga el contenido de autor.txt como valor por defecto"""
@@ -630,7 +610,7 @@ class GUI:
 
     def habilitar_boton_empezar(self):
         """Habilita el botón de empezar"""
-        self.btn_empezar.config(state=tk.NORMAL, bg="#16a34a")
+        self.btn_empezar.config(state=tk.NORMAL, bg=COLOR_SUCCESS)
 
     # ====
     # MÉTODOS PARA OBTENER DATOS DE LA INTERFAZ
@@ -752,11 +732,11 @@ class GUI:
         f_hp = tk.LabelFrame(
             parent, 
             text="📄 Encabezado y Pie de Página", 
-            font=("Arial", 8, "bold"), 
-            padx=6, 
-            pady=3
+            font=("Arial", 9, "bold"), 
+            padx=10, 
+            pady=5
         )
-        f_hp.pack(fill=tk.X, pady=3)
+        f_hp.pack(fill=tk.X, pady=5)
 
         opts_hp = [
             ("Logo en encabezado", self.var_add_logo),
@@ -772,17 +752,17 @@ class GUI:
                 text=txt, 
                 variable=var, 
                 font=("Arial", 8)
-            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=3, pady=1)
+            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=5, pady=2)
 
         # Opciones de Copia
         f_cp = tk.LabelFrame(
             parent, 
             text="📂 Opciones de Copia", 
-            font=("Arial", 8, "bold"), 
-            padx=6, 
-            pady=3
+            font=("Arial", 9, "bold"), 
+            padx=10, 
+            pady=5
         )
-        f_cp.pack(fill=tk.X, pady=3)
+        f_cp.pack(fill=tk.X, pady=5)
 
         opts_cp = [
             ("Respetar estructura", self.var_respect_structure),
@@ -797,7 +777,7 @@ class GUI:
                 text=txt, 
                 variable=var, 
                 font=("Arial", 8)
-            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=3, pady=1)
+            ).grid(row=i//2, column=i%2, sticky=tk.W, padx=5, pady=2)
 
 
         

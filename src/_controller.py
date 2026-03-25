@@ -146,14 +146,6 @@ class AppController:
             self.carpetas_a_procesar.pop(index)
             self.gui.quitar_carpeta_de_lista(index)
 
-    def limpiar_carpetas(self):
-        self.carpetas_a_procesar.clear()
-        self.gui.limpiar_lista_carpetas()
-
-    def limpiar_destino(self):
-        self.carpeta_destino = ""
-        self.gui.entry_destino.delete(0, 'end')
-
     def seleccionar_destino(self):
         carpeta = filedialog.askdirectory(title="Seleccionar Carpeta Destino")
         if carpeta:

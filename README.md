@@ -1,8 +1,8 @@
-# Pink Autoheader
+# PinkCat Autoheader
 
 Aplicación de escritorio para Windows que automatiza la conversión masiva de documentos `.docx` (o `.docm`) a PDF, añadiendo encabezados personalizados (logo y código) y pies de página (autor y numeración).
 
-![Interfaz de Pink Autoheader](img/002.png)
+![Interfaz de PinkCat Autoheader](img/002.png)
 
 ## Características
 
@@ -158,4 +158,4 @@ Proyecto en desarrollo.
 
 ---
 
-**Pink Autoheader** - Automatización de documentos simplificada
+**PinkCat Autoheader** - Automatización de documentos simplificada
